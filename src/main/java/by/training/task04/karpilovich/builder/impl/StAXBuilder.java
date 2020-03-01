@@ -1,11 +1,7 @@
-package by.training.task04.karpilovich.builder;
+package by.training.task04.karpilovich.builder.impl;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.text.ParseException;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
@@ -17,19 +13,15 @@ import javax.xml.stream.XMLStreamReader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import by.training.task04.karpilovich.builder.constant.Constant;
-import by.training.task04.karpilovich.builder.constant.FlowerAttribute;
+import by.training.task04.karpilovich.builder.AbstractBuilder;
 import by.training.task04.karpilovich.builder.constant.FlowersTag;
 import by.training.task04.karpilovich.entity.Flower;
 import by.training.task04.karpilovich.entity.GrowingTip;
-import by.training.task04.karpilovich.entity.Multiplying;
-import by.training.task04.karpilovich.entity.Soil;
 import by.training.task04.karpilovich.entity.VisualParameter;
 import by.training.task04.karpilovich.exception.BuilderException;
 
-public class StAXBuilder {
+public class StAXBuilder extends AbstractBuilder {
 
-	private Set<Flower> flowers;
 	private XMLInputFactory factory;
 	private Flower currentFlower;
 	private GrowingTip currentTip;
@@ -38,7 +30,6 @@ public class StAXBuilder {
 	private static final Logger LOGGER = LogManager.getLogger(StAXBuilder.class);
 
 	private StAXBuilder() {
-		flowers = new HashSet<>();
 		factory = XMLInputFactory.newInstance();
 	}
 
@@ -75,10 +66,10 @@ public class StAXBuilder {
 		}
 	}
 
-	private Flower buildFlower(XMLStreamReader reader) throws XMLStreamException {
+	private Flower buildFlower(XMLStreamReader reader) throws XMLStreamException, BuilderException {
 		currentFlower = new Flower();
 		for (int i = 0; i < reader.getAttributeCount(); i++) {
-			setAttribute(reader.getAttributeLocalName(i), reader.getAttributeValue(i));
+			setFlowerAttribute(currentFlower, reader.getAttributeLocalName(i), reader.getAttributeValue(i));
 		}
 		String name;
 		while (reader.hasNext()) {
@@ -109,68 +100,20 @@ public class StAXBuilder {
 		return currentFlower;
 	}
 
-	private void setAttribute(String attributeName, String attributeValue) {
-		switch (FlowerAttribute.valueOf(attributeName.trim().toUpperCase())) {
-		case NAME:
-			currentFlower.setName(attributeValue);
-			break;
-		case QUANTITY:
-			currentFlower.setQuantity(Integer.parseInt(attributeValue));
-			break;
-		case ORIGIN:
-			currentFlower.setOrigin(attributeValue);
-			break;
-		default:
-			break;
-		}
-	}
-
-	private void setParameter(String name, XMLStreamReader reader) throws XMLStreamException {
-		Optional<FlowersTag> optional = FlowersTag.getFlowersTag(name);
-		String parameter = getParameter(reader);
-		if (!optional.isPresent() || parameter.isEmpty()) {
+	private void setParameter(String name, XMLStreamReader reader) throws XMLStreamException, BuilderException {
+		Optional<FlowersTag> currentTag = FlowersTag.getFlowersTag(name);
+		String value = getTextParameter(reader);
+		if (!currentTag.isPresent() || value.isEmpty()) {
 			return;
 		}
-		switch (optional.get()) {
-		case SOIL:
-			currentFlower.setSoil(Soil.valueOf(parameter.toUpperCase()));
-			break;
-		case MULTIPLYING:
-			currentFlower.setMultiplying(Multiplying.valueOf(parameter.toUpperCase()));
-			break;
-		case PLANTING_DATE:
-			Calendar calendar = new GregorianCalendar();
-			try {
-				calendar.setTime(Constant.FORMAT.parse(parameter));
-			} catch (ParseException e) {
-				LOGGER.error("Illegal date " + parameter);
-			}
-			currentFlower.setPlantingDate(calendar);
-			break;
-		case TIP_NAME:
-			currentTip.setName(parameter);
-			break;
-		case QUANTITY:
-		case NECESSITY:
-			currentTip.setValue(parameter);
-			break;
-		case PARAMETER_NAME:
-			currentParameter.setParameter(parameter);
-			break;
-		case SIZE:
-		case COLOR:
-			currentParameter.setValue(parameter);
-			break;
-		default:
-			break;
-		}
+		setParameter(currentFlower, currentParameter, currentTip, value, currentTag.get());
 	}
 
-	private String getParameter(XMLStreamReader reader) throws XMLStreamException {
+	private String getTextParameter(XMLStreamReader reader) throws XMLStreamException {
 		String text = new String();
 		if (reader.hasNext()) {
 			reader.next();
-			text = reader.getText();
+			text = reader.getText().trim();
 		}
 		return text;
 	}

@@ -5,8 +5,8 @@ import java.util.Set;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import by.training.task04.karpilovich.builder.DOMBuilder;
-import by.training.task04.karpilovich.builder.StAXBuilder;
+import by.training.task04.karpilovich.builder.impl.DOMBuilder;
+import by.training.task04.karpilovich.builder.impl.StAXBuilder;
 import by.training.task04.karpilovich.entity.Flower;
 import by.training.task04.karpilovich.exception.BuilderException;
 

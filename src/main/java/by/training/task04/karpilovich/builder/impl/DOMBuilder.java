@@ -1,9 +1,6 @@
-package by.training.task04.karpilovich.builder;
+package by.training.task04.karpilovich.builder.impl;
 
 import java.io.IOException;
-import java.text.ParseException;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -16,11 +13,11 @@ import org.apache.logging.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-import by.training.task04.karpilovich.builder.constant.Constant;
-import by.training.task04.karpilovich.builder.constant.FlowerAttribute;
+import by.training.task04.karpilovich.builder.AbstractBuilder;
 import by.training.task04.karpilovich.builder.constant.FlowersTag;
 import by.training.task04.karpilovich.entity.Flower;
 import by.training.task04.karpilovich.entity.GrowingTip;
@@ -29,11 +26,9 @@ import by.training.task04.karpilovich.entity.Soil;
 import by.training.task04.karpilovich.entity.VisualParameter;
 import by.training.task04.karpilovich.exception.BuilderException;
 
-public class DOMBuilder {
+public class DOMBuilder extends AbstractBuilder {
 
-	private Set<Flower> flowers = new HashSet<>();
 	private DocumentBuilder documentBuilder;
-
 	private static final Logger LOGGER = LogManager.getLogger(DOMBuilder.class);
 
 	private DOMBuilder() {
@@ -53,10 +48,7 @@ public class DOMBuilder {
 		return DOMBuilderInstanceHolder.INSTANCE;
 	}
 
-	public Set<Flower> getFlowers() {
-		return flowers;
-	}
-
+	@Override
 	public void buildSetFlowers(String fileName) throws BuilderException {
 		Element flowerElement;
 		try {
@@ -88,24 +80,10 @@ public class DOMBuilder {
 		if (flowerAttributes == null) {
 			return;
 		}
-		String attributeName;
-		String attributeValue;
+		Node node;
 		for (int i = 0; i < flowerAttributes.getLength(); i++) {
-			attributeName = flowerAttributes.item(i).getNodeName();
-			attributeValue = flowerAttributes.item(i).getNodeValue();
-			switch (FlowerAttribute.valueOf(attributeName.trim().toUpperCase())) {
-			case NAME:
-				flower.setName(attributeValue);
-				break;
-			case QUANTITY:
-				flower.setQuantity(Integer.parseInt(attributeValue));
-				break;
-			case ORIGIN:
-				flower.setOrigin(attributeValue);
-				break;
-			default:
-				break;
-			}
+			node = flowerAttributes.item(i);
+			setFlowerAttribute(flower, node.getNodeName(), node.getNodeValue());
 		}
 	}
 
@@ -140,7 +118,6 @@ public class DOMBuilder {
 		for (int i = 0; i < nodes.getLength(); i++) {
 			Element parameter = (Element) nodes.item(i);
 			parameters.add(buildVisualParameter(parameter));
-			LOGGER.debug("parameter " + i);
 		}
 		return parameters;
 	}
@@ -168,7 +145,6 @@ public class DOMBuilder {
 		for (int i = 0; i < nodes.getLength(); i++) {
 			Element tip = (Element) nodes.item(i);
 			tips.add(buildGrowingTip(tip));
-			LOGGER.debug("tip " + i);
 		}
 		return tips;
 	}
@@ -190,14 +166,5 @@ public class DOMBuilder {
 		return tip;
 	}
 
-	private Calendar parseDate(String date) throws BuilderException {
-		Calendar calendar = new GregorianCalendar();
-		try {
-			calendar.setTime(Constant.FORMAT.parse(date));
-			return calendar;
-		} catch (ParseException e) {
-			LOGGER.error("Error while parsing date " + date);
-			throw new BuilderException(e);
-		}
-	}
+	
 }

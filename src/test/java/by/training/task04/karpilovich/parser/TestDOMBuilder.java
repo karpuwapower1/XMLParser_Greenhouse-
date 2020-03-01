@@ -9,8 +9,8 @@ import java.util.Set;
 import org.junit.Assert;
 import org.junit.Test;
 
-import by.training.task04.karpilovich.builder.DOMBuilder;
 import by.training.task04.karpilovich.builder.constant.Constant;
+import by.training.task04.karpilovich.builder.impl.DOMBuilder;
 import by.training.task04.karpilovich.entity.Flower;
 import by.training.task04.karpilovich.entity.GrowingTip;
 import by.training.task04.karpilovich.entity.Multiplying;
