@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+
+<flowers xmlns="http://www.example.org/flowers">
+
+	<flower name="rose" origin="the netherlands">
+		<soil>underground</soil>
+		<parameters>
+			<parameter>
+				<parameterName>leaf</parameterName>
+				<color>green</color>
+			</parameter>
+			<parameter>
+				<parameterName>steam</parameterName>
+				<color>green</color>
+			</parameter>
+			<parameter>
+				<parameterName>flower</parameterName>
+				<color>red</color>
+			</parameter>
+			<parameter>
+				<parameterName>size</parameterName>
+				<size>20</size>
+			</parameter>
+		</parameters>
+		<tips>
+			<tip>
+				<tipName>temperature</tipName>
+				<quantity>15</quantity>
+			</tip>
+			<tip>
+				<tipName>light</tipName>
+				<necessity>true</necessity>
+			</tip>
+		</tips>
+		<multiplying>root</multiplying>
+		<planting>2020-01-01</planting>
+	</flower>
+</flowers>
