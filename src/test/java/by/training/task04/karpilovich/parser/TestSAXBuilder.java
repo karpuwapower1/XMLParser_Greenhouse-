@@ -9,7 +9,7 @@ import java.util.Set;
 import org.junit.Assert;
 import org.junit.Test;
 
-import by.training.task04.karpilovich.builder.DOMBuilder;
+import by.training.task04.karpilovich.builder.SAXBuilder;
 import by.training.task04.karpilovich.builder.constant.Constant;
 import by.training.task04.karpilovich.entity.Flower;
 import by.training.task04.karpilovich.entity.GrowingTip;
@@ -18,8 +18,8 @@ import by.training.task04.karpilovich.entity.Soil;
 import by.training.task04.karpilovich.entity.VisualParameter;
 import by.training.task04.karpilovich.exception.BuilderException;
 
-public class TestDOMBuilder {
-
+public class TestSAXBuilder {
+	
 	private Set<Flower> initFlower() throws BuilderException {
 		Set<Flower> flowers = new HashSet<>();
 		Set<VisualParameter> param = new HashSet<>();
@@ -45,10 +45,11 @@ public class TestDOMBuilder {
 
 	@Test
 	public void testBuildSetFlower() throws BuilderException {
-		DOMBuilder builder = DOMBuilder.getInstance();
+		SAXBuilder builder = SAXBuilder.getInstance();
 		builder.buildSetFlowers(getClass().getClassLoader().getResource("flowers.xml").toString());
 		Set<Flower> actual = builder.getFlowers();
 		Set<Flower> expected = initFlower();
 		Assert.assertEquals(expected, actual);
 	}
+
 }

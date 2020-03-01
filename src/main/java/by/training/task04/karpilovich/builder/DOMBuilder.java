@@ -2,7 +2,6 @@ package by.training.task04.karpilovich.builder;
 
 import java.io.IOException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashSet;
@@ -20,6 +19,7 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+import by.training.task04.karpilovich.builder.constant.Constant;
 import by.training.task04.karpilovich.builder.constant.FlowerAttribute;
 import by.training.task04.karpilovich.builder.constant.FlowersTag;
 import by.training.task04.karpilovich.entity.Flower;
@@ -35,22 +35,20 @@ public class DOMBuilder {
 	private DocumentBuilder documentBuilder;
 
 	private static final Logger LOGGER = LogManager.getLogger(DOMBuilder.class);
-	private static final String DATE_PATTERN = "yyyy-mm-dd";
-	private static final SimpleDateFormat FORMAT = new SimpleDateFormat(DATE_PATTERN);
 
 	private DOMBuilder() {
 		try {
-		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-		documentBuilder = factory.newDocumentBuilder();
+			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+			documentBuilder = factory.newDocumentBuilder();
 		} catch (ParserConfigurationException e) {
 			LOGGER.fatal("ParserConfigurationException while DOMBuilder was created \n" + e);
 		}
 	}
-	
-	public static class DOMBuilderInstanceHolder {
+
+	public static final class DOMBuilderInstanceHolder {
 		private static final DOMBuilder INSTANCE = new DOMBuilder();
 	}
-	
+
 	public static DOMBuilder getInstance() {
 		return DOMBuilderInstanceHolder.INSTANCE;
 	}
@@ -59,7 +57,7 @@ public class DOMBuilder {
 		return flowers;
 	}
 
-	public void buildSetFlower(String fileName) throws BuilderException {
+	public void buildSetFlowers(String fileName) throws BuilderException {
 		Element flowerElement;
 		try {
 			Document document = documentBuilder.parse(fileName);
@@ -195,7 +193,7 @@ public class DOMBuilder {
 	private Calendar parseDate(String date) throws BuilderException {
 		Calendar calendar = new GregorianCalendar();
 		try {
-			calendar.setTime(FORMAT.parse(date));
+			calendar.setTime(Constant.FORMAT.parse(date));
 			return calendar;
 		} catch (ParseException e) {
 			LOGGER.error("Error while parsing date " + date);
