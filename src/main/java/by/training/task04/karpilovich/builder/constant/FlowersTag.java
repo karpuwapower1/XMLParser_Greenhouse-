@@ -1,5 +1,7 @@
 package by.training.task04.karpilovich.builder.constant;
 
+import java.util.Optional;
+
 public enum FlowersTag {
 
 	FLOWER("flower"), 
@@ -15,6 +17,15 @@ public enum FlowersTag {
 
 	public String getTagName() {
 		return tagName;
+	}
+	
+	public static Optional<FlowersTag> getFlowersTag(String tagName) {
+		for (FlowersTag tag : FlowersTag.values()) {
+			if (tag.getTagName().equals(tagName)) {
+				return Optional.of(tag);
+			}
+		}
+		return Optional.empty();
 	}
 
 }

@@ -23,11 +23,4 @@ public class XMLValidator {
 		
 		return true;
 	}
-	
-	public static void main(String[] args) throws SAXException, IOException {
-		XMLValidator v = new XMLValidator();
-		v.validate();
-		System.out.println("TRUE!!!");
-	}
-	
 }
