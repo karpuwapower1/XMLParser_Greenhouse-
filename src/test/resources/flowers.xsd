@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://www.example.org/flowers"
+	xmlns:tns="http://www.example.org/flowers"
+	elementFormDefault="qualified">
+	<element name="flowers">
+		<complexType>
+			<sequence>
+				<element name="flower" type="tns:flower" minOccurs="1"
+					maxOccurs="unbounded" />
+			</sequence>
+		</complexType>
+	</element>
+
+	<complexType name="flower">
+		<sequence>
+			<element name="soil" type="tns:Soil" />
+			<element name="parameters">
+				<complexType>
+					<sequence>
+						<element name="parameter" type="tns:parameter"
+							minOccurs="0" maxOccurs="unbounded" />
+					</sequence>
+				</complexType>
+			</element>
+			<element name="tips">
+				<complexType>
+					<sequence>
+						<element name="tip" type="tns:tip" minOccurs="2"
+							maxOccurs="unbounded" />
+					</sequence>
+				</complexType>
+			</element>
+			<element name="multiplying" type="tns:Multiplying" />
+			<element name="planting" type="date" />
+		</sequence>
+		<attribute name="name" type="tns:Name" use="required" />
+		<attribute name="quantity" type="tns:Quantity" default="1" />
+		<attribute name="origin" type="string" default="unknown" />
+	</complexType>
+
+	<simpleType name="Name">
+		<restriction base="ID">
+			<pattern value="[A-Za-z0-9 ]{2,}" />
+		</restriction>
+	</simpleType>
+
+	<simpleType name="Soil">
+		<restriction base="string">
+			<enumeration value="podzolic"></enumeration>
+			<enumeration value="underground"></enumeration>
+			<enumeration value="podzolic_underground"></enumeration>
+		</restriction>
+	</simpleType>
+
+	<complexType name="parameter">
+		<sequence>
+			<element name="parameterName" type="string" />
+			<choice>
+				<element name="color" type="tns:Color" />
+				<element name="size" type="tns:Size" />
+			</choice>
+		</sequence>
+	</complexType>
+
+	<simpleType name="Color">
+		<restriction base="string">
+			<pattern value="[a-zA-Z ]{2,}" />
+		</restriction>
+	</simpleType>
+
+	<simpleType name="Size">
+		<restriction base="int">
+			<pattern value="[0-9]{1,}"/>
+		</restriction>
+	</simpleType>
+
+	<complexType name="tip">
+		<sequence>
+			<element name="tipName" type="string" />
+			<choice>
+				<element name="quantity" type="tns:Quantity" />
+				<element name="necessity" type="tns:Necessity" />
+			</choice>
+		</sequence>
+	</complexType>
+
+	<simpleType name="Quantity">
+		<restriction base="string">
+			<pattern value="[0-9]{1,}" />
+		</restriction>
+	</simpleType>
+
+	<simpleType name="Necessity">
+		<restriction base="string">
+			<enumeration value="true"></enumeration>
+			<enumeration value="false"></enumeration>
+		</restriction>
+	</simpleType>
+
+	<simpleType name="Multiplying">
+		<restriction base="string">
+			<enumeration value="seed" />
+			<enumeration value="root" />
+			<enumeration value="leaf" />
+		</restriction>
+	</simpleType>
+
+</schema>
