@@ -23,10 +23,7 @@ import by.training.task04.karpilovich.exception.BuilderException;
 public class StAXBuilder extends AbstractBuilder {
 
 	private XMLInputFactory factory;
-	private Flower currentFlower;
-	private GrowingTip currentTip;
-	private VisualParameter currentParameter;
-
+	
 	private static final Logger LOGGER = LogManager.getLogger(StAXBuilder.class);
 
 	private StAXBuilder() {
@@ -53,7 +50,8 @@ public class StAXBuilder extends AbstractBuilder {
 				if (reader.next() == XMLStreamConstants.START_ELEMENT) {
 					name = reader.getLocalName();
 					if (FlowersTag.FLOWER.getTagName().equals(name)) {
-						flowers.add(buildFlower(reader));
+						buildFlower(reader);
+						flowers.add(currentFlower);
 					}
 				}
 			}
@@ -66,10 +64,10 @@ public class StAXBuilder extends AbstractBuilder {
 		}
 	}
 
-	private Flower buildFlower(XMLStreamReader reader) throws XMLStreamException, BuilderException {
+	private void buildFlower(XMLStreamReader reader) throws XMLStreamException, BuilderException {
 		currentFlower = new Flower();
 		for (int i = 0; i < reader.getAttributeCount(); i++) {
-			setFlowerAttribute(currentFlower, reader.getAttributeLocalName(i), reader.getAttributeValue(i));
+			setFlowerAttribute(reader.getAttributeLocalName(i), reader.getAttributeValue(i));
 		}
 		String name;
 		while (reader.hasNext()) {
@@ -87,7 +85,7 @@ public class StAXBuilder extends AbstractBuilder {
 			case XMLStreamConstants.END_ELEMENT:
 				name = reader.getLocalName();
 				if (FlowersTag.FLOWER.getTagName().equals(name)) {
-					return currentFlower;
+					return;
 				} else if (FlowersTag.PARAMETERS.getTagName().equals(name)) {
 					currentFlower.addVisualParamenter(currentParameter);
 				} else if (FlowersTag.TIPS.getTagName().equals(name)) {
@@ -97,7 +95,6 @@ public class StAXBuilder extends AbstractBuilder {
 			}
 
 		}
-		return currentFlower;
 	}
 
 	private void setParameter(String name, XMLStreamReader reader) throws XMLStreamException, BuilderException {
@@ -106,7 +103,7 @@ public class StAXBuilder extends AbstractBuilder {
 		if (!currentTag.isPresent() || value.isEmpty()) {
 			return;
 		}
-		setParameter(currentFlower, currentParameter, currentTip, value, currentTag.get());
+		setParameter(value, currentTag.get());
 	}
 
 	private String getTextParameter(XMLStreamReader reader) throws XMLStreamException {

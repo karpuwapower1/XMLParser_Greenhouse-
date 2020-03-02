@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 import org.apache.logging.log4j.LogManager;
@@ -22,6 +23,10 @@ import by.training.task04.karpilovich.exception.BuilderException;
 public abstract class AbstractBuilder {
 
 	protected Set<Flower> flowers;
+	protected Flower currentFlower;
+	protected GrowingTip currentTip;
+	protected VisualParameter currentParameter;
+	protected Optional<FlowersTag> currentTag;
 
 	private static final Logger LOGGER = LogManager.getLogger(AbstractBuilder.class);
 
@@ -39,47 +44,46 @@ public abstract class AbstractBuilder {
 
 	public abstract void buildSetFlowers(String fileName) throws BuilderException;
 
-	protected void setFlowerAttribute(Flower flower, String attributeName, String attributeValue) {
+	protected void setFlowerAttribute(String attributeName, String attributeValue) {
 		switch (FlowerAttribute.valueOf(attributeName.trim().toUpperCase())) {
 		case NAME:
-			flower.setName(attributeValue);
+			currentFlower.setName(attributeValue);
 			break;
 		case QUANTITY:
-			flower.setQuantity(Integer.parseInt(attributeValue));
+			currentFlower.setQuantity(Integer.parseInt(attributeValue));
 			break;
 		case ORIGIN:
-			flower.setOrigin(attributeValue);
+			currentFlower.setOrigin(attributeValue);
 			break;
 		default:
 			break;
 		}
 	}
 	
-	protected void setParameter(Flower flower, VisualParameter parameter, GrowingTip tip, String value,
-			FlowersTag tag) throws BuilderException {
+	protected void setParameter(String value, FlowersTag tag) throws BuilderException {
 		switch (tag) {
 		case SOIL:
-			flower.setSoil(Soil.valueOf(value.toUpperCase()));
+			currentFlower.setSoil(Soil.valueOf(value.toUpperCase()));
 			break;
 		case MULTIPLYING:
-			flower.setMultiplying(Multiplying.valueOf(value.toUpperCase()));
+			currentFlower.setMultiplying(Multiplying.valueOf(value.toUpperCase()));
 			break;
 		case PLANTING_DATE:
-			flower.setPlantingDate(parseDate(value));
+			currentFlower.setPlantingDate(parseDate(value));
 			break;
 		case TIP_NAME:
-			tip.setName(value);
+			currentTip.setName(value);
 			break;
 		case QUANTITY:
 		case NECESSITY:
-			tip.setValue(value);
+			currentTip.setValue(value);
 			break;
 		case PARAMETER_NAME:
-			parameter.setParameter(value);
+			currentParameter.setParameter(value);
 			break;
 		case SIZE:
 		case COLOR:
-			parameter.setValue(value);
+			currentParameter.setValue(value);
 			break;
 		default:
 			break;

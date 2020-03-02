@@ -1,8 +1,6 @@
 package by.training.task04.karpilovich.builder.impl;
 
 import java.io.IOException;
-import java.util.HashSet;
-import java.util.Set;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -21,8 +19,6 @@ import by.training.task04.karpilovich.builder.AbstractBuilder;
 import by.training.task04.karpilovich.builder.constant.FlowersTag;
 import by.training.task04.karpilovich.entity.Flower;
 import by.training.task04.karpilovich.entity.GrowingTip;
-import by.training.task04.karpilovich.entity.Multiplying;
-import by.training.task04.karpilovich.entity.Soil;
 import by.training.task04.karpilovich.entity.VisualParameter;
 import by.training.task04.karpilovich.exception.BuilderException;
 
@@ -57,7 +53,8 @@ public class DOMBuilder extends AbstractBuilder {
 			NodeList flowerList = element.getElementsByTagName(FlowersTag.FLOWER.getTagName());
 			for (int i = 0; i < flowerList.getLength(); i++) {
 				flowerElement = (Element) flowerList.item(i);
-				flowers.add(buildFlower(flowerElement));
+				buildFlower(flowerElement);
+				flowers.add(currentFlower);
 			}
 		} catch (IOException e) {
 			LOGGER.error("IOException with file " + fileName + "\n" + e);
@@ -68,103 +65,59 @@ public class DOMBuilder extends AbstractBuilder {
 		}
 	}
 
-	private Flower buildFlower(Element flowerElement) throws BuilderException {
-		Flower flower = new Flower();
+	private void buildFlower(Element flowerElement) throws BuilderException {
+		currentFlower = new Flower();
 		NamedNodeMap flowerAttributes = flowerElement.getAttributes();
-		setAttributesToFlower(flower, flowerAttributes);
-		setParametersToFlower(flower, flowerElement);
-		return flower;
+		setAttributesToFlower(flowerAttributes);
+		setParametersToFlower(flowerElement.getChildNodes());
 	}
 
-	private void setAttributesToFlower(Flower flower, NamedNodeMap flowerAttributes) {
+	private void setAttributesToFlower(NamedNodeMap flowerAttributes) {
 		if (flowerAttributes == null) {
 			return;
 		}
 		Node node;
 		for (int i = 0; i < flowerAttributes.getLength(); i++) {
 			node = flowerAttributes.item(i);
-			setFlowerAttribute(flower, node.getNodeName(), node.getNodeValue());
+			setFlowerAttribute(node.getNodeName(), node.getNodeValue());
 		}
 	}
 
-	private void setParametersToFlower(Flower flower, Element flowerElements) throws BuilderException {
-		String soil = getElementTextContent(flowerElements, FlowersTag.SOIL);
-		if (!soil.isEmpty()) {
-			flower.setSoil(Soil.valueOf(soil.trim().toUpperCase()));
-		}
-		String multiplying = getElementTextContent(flowerElements, FlowersTag.MULTIPLYING);
-		if (!multiplying.isEmpty()) {
-			flower.setMultiplying(Multiplying.valueOf(multiplying.trim().toUpperCase()));
-		}
-		flower.setParameters(buildSetVisualParameter(flowerElements));
-		flower.setTips(buildSetGrowingTip(flowerElements));
-		String date = getElementTextContent(flowerElements, FlowersTag.PLANTING_DATE);
-		if (!date.isEmpty()) {
-			flower.setPlantingDate(parseDate(date));
-		}
-	}
-
-	private String getElementTextContent(Element element, FlowersTag tag) {
-		NodeList list = element.getElementsByTagName(tag.getTagName());
-		if (list.item(0) == null) {
-			return new String();
-		}
-		return list.item(0).getTextContent();
-	}
-
-	private Set<VisualParameter> buildSetVisualParameter(Element flowerElements) {
-		Set<VisualParameter> parameters = new HashSet<>();
-		NodeList nodes = flowerElements.getElementsByTagName(FlowersTag.PARAMETERS.getTagName());
+	private void setParametersToFlower(NodeList nodes) throws BuilderException {
+		Node node;
+		
+		FlowersTag tag;
+		String value;
 		for (int i = 0; i < nodes.getLength(); i++) {
-			Element parameter = (Element) nodes.item(i);
-			parameters.add(buildVisualParameter(parameter));
+			node = nodes.item(i);
+			currentTag = FlowersTag.getFlowersTag(node.getNodeName());
+			if (currentTag.isPresent()) {
+				tag = currentTag.get();
+				switch (tag) {
+				case PARAMETERS:
+					currentParameter = new VisualParameter();
+					setParametersToFlower(node.getChildNodes());
+					currentFlower.addVisualParamenter(currentParameter);
+					break;
+				case TIPS:
+					currentTip = new GrowingTip();
+					setParametersToFlower(node.getChildNodes());
+					currentFlower.addGrowingTip(currentTip);
+					break;
+				default:
+					value = node.getTextContent().trim();
+					if (value != null) {
+						setParameter(value, tag);
+					}
+				}
+			}
+			// <parameters>
+			// <parameter> .... </parameter>
+			// .....
+			// </parameters>
+			if (node.getChildNodes() != null) {
+				setParametersToFlower(node.getChildNodes());
+			}
 		}
-		return parameters;
 	}
-
-	private VisualParameter buildVisualParameter(Element element) {
-		VisualParameter parameter = new VisualParameter();
-		String param = getElementTextContent(element, FlowersTag.PARAMETER_NAME);
-		if (!param.isEmpty()) {
-			parameter.setParameter(param);
-		}
-		param = getElementTextContent(element, FlowersTag.SIZE);
-		if (!param.isEmpty()) {
-			parameter.setValue(param);
-		}
-		param = getElementTextContent(element, FlowersTag.COLOR);
-		if (!param.isEmpty()) {
-			parameter.setValue(param);
-		}
-		return parameter;
-	}
-
-	private Set<GrowingTip> buildSetGrowingTip(Element flowerElements) {
-		Set<GrowingTip> tips = new HashSet<>();
-		NodeList nodes = flowerElements.getElementsByTagName(FlowersTag.TIPS.getTagName());
-		for (int i = 0; i < nodes.getLength(); i++) {
-			Element tip = (Element) nodes.item(i);
-			tips.add(buildGrowingTip(tip));
-		}
-		return tips;
-	}
-
-	private GrowingTip buildGrowingTip(Element element) {
-		GrowingTip tip = new GrowingTip();
-		String param = getElementTextContent(element, FlowersTag.TIP_NAME);
-		if (!param.isEmpty()) {
-			tip.setName(param);
-		}
-		param = getElementTextContent(element, FlowersTag.NECESSITY);
-		if (!param.isEmpty()) {
-			tip.setValue(param);
-		}
-		param = getElementTextContent(element, FlowersTag.QUANTITY);
-		if (!param.isEmpty()) {
-			tip.setValue(param);
-		}
-		return tip;
-	}
-
-	
 }

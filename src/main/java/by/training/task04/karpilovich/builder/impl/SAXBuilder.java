@@ -1,7 +1,6 @@
 package by.training.task04.karpilovich.builder.impl;
 
 import java.io.IOException;
-import java.util.Optional;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -57,11 +56,6 @@ public class SAXBuilder extends AbstractBuilder {
 
 	private class FlowerHandler extends DefaultHandler {
 
-		private Flower currentFlower;
-		private GrowingTip currentTip;
-		private VisualParameter currentParameter;
-		private Optional<FlowersTag> currentTag;
-
 		private FlowerHandler() {
 		}
 
@@ -71,7 +65,7 @@ public class SAXBuilder extends AbstractBuilder {
 			if (FlowersTag.FLOWER.getTagName().equals(localName)) {
 				currentFlower = new Flower();
 				for (int i = 0; i < attributes.getLength(); i++) {
-					setFlowerAttribute(currentFlower, attributes.getLocalName(i), attributes.getValue(i));
+					setFlowerAttribute(attributes.getLocalName(i), attributes.getValue(i));
 				}
 			} else if (FlowersTag.PARAMETERS.getTagName().equals(localName)) {
 				currentParameter = new VisualParameter();
@@ -100,7 +94,7 @@ public class SAXBuilder extends AbstractBuilder {
 				return;
 			}
 			try {
-				setParameter(currentFlower, currentParameter, currentTip, value, currentTag.get());
+				setParameter(value, currentTag.get());
 			} catch (BuilderException e) {
 				LOGGER.error(e);
 			}
