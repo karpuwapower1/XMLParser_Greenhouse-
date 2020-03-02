@@ -30,12 +30,8 @@ public class StAXBuilder extends AbstractBuilder {
 		factory = XMLInputFactory.newInstance();
 	}
 
-	private static final class StAXBuilderInstanceHolder {
-		private static final StAXBuilder INSTANCE = new StAXBuilder();
-	}
-
 	public static StAXBuilder getInstance() {
-		return StAXBuilderInstanceHolder.INSTANCE;
+		return new StAXBuilder();
 	}
 
 	public Set<Flower> getFlowers() {

@@ -34,12 +34,8 @@ public class SAXBuilder extends AbstractBuilder {
 		}
 	}
 
-	private static final class SAXBuilderInstanceHandler {
-		private static final SAXBuilder INSTANCE = new SAXBuilder();
-	}
-
 	public static SAXBuilder getInstance() {
-		return SAXBuilderInstanceHandler.INSTANCE;
+		return new SAXBuilder();
 	}
 
 	public void buildSetFlowers(String fileName) throws BuilderException {

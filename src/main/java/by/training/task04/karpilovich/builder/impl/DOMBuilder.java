@@ -36,12 +36,8 @@ public class DOMBuilder extends AbstractBuilder {
 		}
 	}
 
-	public static final class DOMBuilderInstanceHolder {
-		private static final DOMBuilder INSTANCE = new DOMBuilder();
-	}
-
 	public static DOMBuilder getInstance() {
-		return DOMBuilderInstanceHolder.INSTANCE;
+		return new DOMBuilder();
 	}
 
 	@Override
