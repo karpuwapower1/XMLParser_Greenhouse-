@@ -16,6 +16,7 @@ public class BuilderFactory {
 
 	private static final Logger LOGGER = LogManager.getLogger(BuilderFactory.class);
 	private final Lock lock = new ReentrantLock();
+	
 	private enum BuilderType {
 		DOM, SAX, STAX;
 	}
@@ -23,7 +24,7 @@ public class BuilderFactory {
 	private BuilderFactory() {
 	}
 
-	public static class BuilderFactoryInstanceHolder {
+	private static class BuilderFactoryInstanceHolder {
 		public static final BuilderFactory INSTANCE = new BuilderFactory();
 	}
 

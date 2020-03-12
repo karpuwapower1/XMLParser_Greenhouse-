@@ -27,7 +27,6 @@ public class Controller extends HttpServlet {
 
 	@Override
 	public void init() throws ServletException {
-		LOGGER.debug("INIT");
 		super.init();
 	}
 
@@ -45,9 +44,7 @@ public class Controller extends HttpServlet {
 
 	private void processRequest(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		LOGGER.debug("Prosess request");
 		String commandType = request.getParameter(RequestParameterManager.COMMAND.getParameterName());
-		LOGGER.debug(commandType);
 		CommandFactory factory = CommandFactory.getInstance();
 		Command command = factory.getCommand(commandType);
 		PageManager page = command.execute(request, response);

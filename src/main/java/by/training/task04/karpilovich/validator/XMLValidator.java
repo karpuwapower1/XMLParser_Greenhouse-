@@ -26,7 +26,6 @@ public class XMLValidator {
 		try {
 			SchemaFactory factory = SchemaFactory.newInstance(SCHEMA_LANGUAGE);
 			URL url = getClass().getClassLoader().getResource(SCHEMA_FILE_NAME);
-			LOGGER.debug(url == null);
 			Schema schema = factory.newSchema(url);
 			Validator validator = schema.newValidator();
 			Source source = new StreamSource(file);

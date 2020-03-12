@@ -3,10 +3,10 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>by.training.karpilovich.task4</groupId>
-	<artifactId>XMLParserGreenHouse</artifactId>
+	<artifactId>Parser</artifactId>
 	<packaging>war</packaging>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>XMLParserGreenHouse Maven Webapp</name>
+	<name>Parser</name>
 	<url>http://maven.apache.org</url>
 	<properties>
 		<maven.compiler.source>1.8</maven.compiler.source>
@@ -15,28 +15,20 @@
 		<log4jVersion>2.12.1</log4jVersion>
 		<jstlVersion>1.2</jstlVersion>
 		<servletApiVersion>4.0.1</servletApiVersion>
-		<connectorVersion>8.0.18</connectorVersion>
+		<maven-war-plugin-version>3.2.3</maven-war-plugin-version>
 	</properties>
 
 	<dependencies>
-		<!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
-			<version>4.0.1</version>
 			<scope>provided</scope>
+			<version>${servletApiVersion}</version>
 		</dependency>
-
-		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<version>8.0.18</version>
-		</dependency>
-
 		<dependency>
 			<groupId>jstl</groupId>
 			<artifactId>jstl</artifactId>
-			<version>1.2</version>
+			<version>${jstlVersion}</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
@@ -56,13 +48,6 @@
 		</dependency>
 	</dependencies>
 	<build>
-		<finalName>XMLParserGreenHouse</finalName>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.tomcat.maven</groupId>
-				<artifactId>tomcat6-maven-plugin</artifactId>
-				<version>2.2</version>
-			</plugin>
-		</plugins>
+		<finalName>Parser</finalName>
 	</build>
 </project>

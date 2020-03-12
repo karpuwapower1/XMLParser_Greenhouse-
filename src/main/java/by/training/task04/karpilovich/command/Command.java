@@ -9,8 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import by.training.task04.karpilovich.resource.PageManager;
 
 public interface Command {
-	
-	public PageManager execute(HttpServletRequest request, 
-			HttpServletResponse response) throws ServletException, IOException;
+
+	PageManager execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException;
 
 }

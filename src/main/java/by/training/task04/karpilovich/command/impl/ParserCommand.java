@@ -37,6 +37,7 @@ public class ParserCommand implements Command {
 			Set<Flower> flowers = builder.getFlowers();
 			request.setAttribute(RequestAttributeManager.FLOWERS.getAttributeName(), flowers);
 			file.delete();
+			LOGGER.debug("file was deleted " + file.getName());
 			return PageManager.RESULT;
 		} catch (ParserException e) {
 			request.setAttribute("illegalFileMessage", new String("File is not valid"));

@@ -19,7 +19,7 @@ public class CommandFactory {
 	private CommandFactory() {
 	}
 
-	public static class CommandFactoryInstanceHolder {
+	private static class CommandFactoryInstanceHolder {
 		public static final CommandFactory INSTANCE = new CommandFactory();
 	}
 

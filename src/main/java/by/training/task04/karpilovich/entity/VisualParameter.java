@@ -1,13 +1,13 @@
 package by.training.task04.karpilovich.entity;
 
 public class VisualParameter {
-	
+
 	private String parameter;
 	private String value;
-	
+
 	public VisualParameter() {
 	}
-	
+
 	public VisualParameter(String parameter, String value) {
 		this.parameter = parameter;
 		this.value = value;
@@ -62,7 +62,4 @@ public class VisualParameter {
 	public String toString() {
 		return getClass().getSimpleName() + " [parameter=" + parameter + ", value=" + value + "]";
 	}
-
-
-	
 }
