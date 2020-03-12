@@ -23,8 +23,9 @@ import by.training.task04.karpilovich.resource.RequestParameterManager;
 
 public class ParserCommand implements Command {
 
+	private static final String ILLEGAL_FILE_MESSAGE = "File is not valid";
 	private static final Logger LOGGER = LogManager.getLogger(ParserCommand.class);
-
+	
 	@Override
 	public PageManager execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String parserType = request.getParameter(RequestParameterManager.PARSER.getParameterName());
@@ -40,7 +41,7 @@ public class ParserCommand implements Command {
 			LOGGER.debug("file was deleted " + file.getName());
 			return PageManager.RESULT;
 		} catch (ParserException e) {
-			request.setAttribute("illegalFileMessage", new String("File is not valid"));
+			request.setAttribute( RequestAttributeManager.ILLEGAL_FILE_MESSAGE_ATTRIBUTE.getAttributeName(), ILLEGAL_FILE_MESSAGE);
 			return PageManager.WELCOME;
 		}
 

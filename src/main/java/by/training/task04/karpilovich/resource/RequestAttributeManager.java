@@ -2,7 +2,7 @@ package by.training.task04.karpilovich.resource;
 
 public enum RequestAttributeManager {
 	
-	FLOWERS("flowers");
+	FLOWERS("flowers"), ILLEGAL_FILE_MESSAGE_ATTRIBUTE("illegalFileMessage");
 	
 	private String attributeName;
 
