@@ -1,5 +1,7 @@
 package by.training.task04.karpilovich.builder.impl;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -16,11 +18,11 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import by.training.task04.karpilovich.builder.AbstractBuilder;
-import by.training.task04.karpilovich.builder.constant.FlowersTag;
+import by.training.task04.karpilovich.builder.util.FlowersTag;
 import by.training.task04.karpilovich.entity.Flower;
 import by.training.task04.karpilovich.entity.GrowingTip;
 import by.training.task04.karpilovich.entity.VisualParameter;
-import by.training.task04.karpilovich.exception.BuilderException;
+import by.training.task04.karpilovich.exception.ParserException;
 
 public class DOMBuilder extends AbstractBuilder {
 
@@ -41,10 +43,11 @@ public class DOMBuilder extends AbstractBuilder {
 	}
 
 	@Override
-	public void buildSetFlowers(String fileName) throws BuilderException {
+	public void buildSetFlowers(File file) throws ParserException {
+		validator.validate(file);
 		Element flowerElement;
 		try {
-			Document document = documentBuilder.parse(fileName);
+			Document document = documentBuilder.parse(new FileInputStream(file));
 			Element element = document.getDocumentElement();
 			NodeList flowerList = element.getElementsByTagName(FlowersTag.FLOWER.getTagName());
 			for (int i = 0; i < flowerList.getLength(); i++) {
@@ -52,16 +55,13 @@ public class DOMBuilder extends AbstractBuilder {
 				buildFlower(flowerElement);
 				flowers.add(currentFlower);
 			}
-		} catch (IOException e) {
-			LOGGER.error("IOException with file " + fileName + "\n" + e);
-			throw new BuilderException(e);
-		} catch (SAXException e) {
-			LOGGER.error("SAXExceptoin while building a flowers set\n " + e);
-			throw new BuilderException(e);
+		} catch (IOException | SAXException e) {
+			LOGGER.error("Illegal file " + e);
+			throw new ParserException("Illegal file ", e);
 		}
 	}
 
-	private void buildFlower(Element flowerElement) throws BuilderException {
+	private void buildFlower(Element flowerElement) throws ParserException {
 		currentFlower = new Flower();
 		NamedNodeMap flowerAttributes = flowerElement.getAttributes();
 		setAttributesToFlower(flowerAttributes);
@@ -79,9 +79,8 @@ public class DOMBuilder extends AbstractBuilder {
 		}
 	}
 
-	private void setParametersToFlower(NodeList nodes) throws BuilderException {
+	private void setParametersToFlower(NodeList nodes) throws ParserException {
 		Node node;
-		
 		FlowersTag tag;
 		String value;
 		for (int i = 0; i < nodes.getLength(); i++) {

@@ -1,5 +1,6 @@
 package by.training.task04.karpilovich.builder;
 
+import java.io.File;
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -10,15 +11,16 @@ import java.util.Set;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import by.training.task04.karpilovich.builder.constant.Constant;
-import by.training.task04.karpilovich.builder.constant.FlowerAttribute;
-import by.training.task04.karpilovich.builder.constant.FlowersTag;
+import by.training.task04.karpilovich.builder.util.Constant;
+import by.training.task04.karpilovich.builder.util.FlowerAttribute;
+import by.training.task04.karpilovich.builder.util.FlowersTag;
 import by.training.task04.karpilovich.entity.Flower;
 import by.training.task04.karpilovich.entity.GrowingTip;
 import by.training.task04.karpilovich.entity.Multiplying;
 import by.training.task04.karpilovich.entity.Soil;
 import by.training.task04.karpilovich.entity.VisualParameter;
-import by.training.task04.karpilovich.exception.BuilderException;
+import by.training.task04.karpilovich.exception.ParserException;
+import by.training.task04.karpilovich.validator.XMLValidator;
 
 public abstract class AbstractBuilder {
 
@@ -27,11 +29,13 @@ public abstract class AbstractBuilder {
 	protected GrowingTip currentTip;
 	protected VisualParameter currentParameter;
 	protected Optional<FlowersTag> currentTag;
-
+	protected XMLValidator validator;
+	
 	private static final Logger LOGGER = LogManager.getLogger(AbstractBuilder.class);
 
 	protected AbstractBuilder() {
 		flowers = new HashSet<>();
+		validator = new XMLValidator();
 	}
 
 	public Set<Flower> getFlowers() {
@@ -42,7 +46,7 @@ public abstract class AbstractBuilder {
 		flowers = new HashSet<>();
 	}
 
-	public abstract void buildSetFlowers(String fileName) throws BuilderException;
+	public abstract void buildSetFlowers(File file) throws ParserException;
 
 	protected void setFlowerAttribute(String attributeName, String attributeValue) {
 		switch (FlowerAttribute.valueOf(attributeName.trim().toUpperCase())) {
@@ -60,7 +64,7 @@ public abstract class AbstractBuilder {
 		}
 	}
 	
-	protected void setParameter(String value, FlowersTag tag) throws BuilderException {
+	protected void setParameter(String value, FlowersTag tag) throws ParserException {
 		switch (tag) {
 		case SOIL:
 			currentFlower.setSoil(Soil.valueOf(value.toUpperCase()));
@@ -90,14 +94,14 @@ public abstract class AbstractBuilder {
 		}
 	}
 
-	protected Calendar parseDate(String date) throws BuilderException {
+	protected Calendar parseDate(String date) throws ParserException {
 		Calendar calendar = new GregorianCalendar();
 		try {
 			calendar.setTime(Constant.FORMAT.parse(date));
 			return calendar;
 		} catch (ParseException e) {
 			LOGGER.error("Error while parsing date " + date);
-			throw new BuilderException(e);
+			throw new ParserException(e);
 		}
 	}
 }

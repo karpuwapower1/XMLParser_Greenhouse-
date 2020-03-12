@@ -1,4 +1,4 @@
-package by.training.task04.karpilovich.builder.constant;
+package by.training.task04.karpilovich.builder.util;
 
 public enum FlowerAttribute {
 	

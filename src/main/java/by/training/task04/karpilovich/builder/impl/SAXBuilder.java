@@ -1,5 +1,6 @@
 package by.training.task04.karpilovich.builder.impl;
 
+import java.io.File;
 import java.io.IOException;
 
 import org.apache.logging.log4j.LogManager;
@@ -11,11 +12,11 @@ import org.xml.sax.helpers.DefaultHandler;
 import org.xml.sax.helpers.XMLReaderFactory;
 
 import by.training.task04.karpilovich.builder.AbstractBuilder;
-import by.training.task04.karpilovich.builder.constant.FlowersTag;
+import by.training.task04.karpilovich.builder.util.FlowersTag;
 import by.training.task04.karpilovich.entity.Flower;
 import by.training.task04.karpilovich.entity.GrowingTip;
 import by.training.task04.karpilovich.entity.VisualParameter;
-import by.training.task04.karpilovich.exception.BuilderException;
+import by.training.task04.karpilovich.exception.ParserException;
 
 public class SAXBuilder extends AbstractBuilder {
 
@@ -38,21 +39,19 @@ public class SAXBuilder extends AbstractBuilder {
 		return new SAXBuilder();
 	}
 
-	public void buildSetFlowers(String fileName) throws BuilderException {
+	public void buildSetFlowers(File file) throws ParserException {
+		validator.validate(file);
 		try {
-			reader.parse(fileName);
-		} catch (IOException e) {
-			LOGGER.error("IOException with file " + fileName + "\n" + e);
-			throw new BuilderException(e);
-		} catch (SAXException e) {
-			LOGGER.error("SAXException with file " + fileName + "\n" + e);
-			throw new BuilderException(e);
+			reader.parse(file.getAbsolutePath());
+		} catch (IOException | SAXException e) {
+			LOGGER.error("Illegal file \n" + e);
+			throw new ParserException("Illegal file ", e);
 		}
 	}
 
 	private class FlowerHandler extends DefaultHandler {
 
-		private FlowerHandler() {
+		public FlowerHandler() {
 		}
 
 		@Override
@@ -91,8 +90,9 @@ public class SAXBuilder extends AbstractBuilder {
 			}
 			try {
 				setParameter(value, currentTag.get());
-			} catch (BuilderException e) {
+			} catch (ParserException e) {
 				LOGGER.error(e);
+				throw new SAXException(e);
 			}
 		}
 	}
