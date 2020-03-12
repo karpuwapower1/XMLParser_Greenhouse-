@@ -36,9 +36,14 @@
 		</c:if>
 	</div>
 	<script>
+	<%@ include file="js/jquery-3.3.1.min.js"%>
+	
 	<%@ include file="js/bootstrap.min.js"%>
+		
 	<%@ include file="js/popper.min.js"%>
-	<%@ include file="js/jquery.min.js"%>
+	
+	<%@ include file="js/main.js"%>
+	
 	</script>
 </body>
 </html>

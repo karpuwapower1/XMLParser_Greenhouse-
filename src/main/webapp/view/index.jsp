@@ -13,7 +13,8 @@
 	href="https://fonts.googleapis.com/css?family=Roboto&display=swap">
 <link rel="stylesheet"
 	href="https://fonts.googleapis.com/css?family=Alfa+Slab+One|Sen&display=swap">
-<style>
+	
+<style>	   
 <%@ include file="css/bootstrap.min.css"%>
 <%@include file="css/styles.css"%>
 </style>
@@ -78,10 +79,10 @@
 		<div class="grid">
 			<form action="parser" method="post" enctype="multipart/form-data">
 				<div class="row">
-					<div class="col-md-6">
+					<div class="col-md-6">			
 						<div class="custom-file">
 							<input type="file" name="file" class="custom-file-input"
-								id="customFile" accept=".xml" size="10240"> <label
+								id="customFile" > <label id="customFileLabel"
 								class="custom-file-label" for="customFile">Choose xml
 								file</label>
 						</div>
@@ -108,13 +109,26 @@
 		</div>
 	</div>
 	<script>
+	
+	<%@ include file="js/jquery-3.3.1.min.js"%>
 		
 	<%@ include file="js/bootstrap.min.js"%>
 		
 	<%@ include file="js/popper.min.js"%>
-		
-	<%@ include file="js/jquery.min.js"%>
+	
+	<%@ include file="js/main.js"%>
+	
 		
 	</script>
+
+	
+	
+	
+	<script type="application/javascript">
+    $('input[type="file"]').change(function(e){
+        var fileName = e.target.files[0].name;
+        $('.custom-file-label').html(fileName);
+    });
+</script>
 </body>
 </html>

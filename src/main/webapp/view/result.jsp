@@ -92,9 +92,14 @@
 	</table>
 	
 		<script>
+	<%@ include file="js/jquery-3.3.1.min.js"%>
+		
 	<%@ include file="js/bootstrap.min.js"%>
+		
 	<%@ include file="js/popper.min.js"%>
-	<%@ include file="js/jquery.min.js"%>
+	
+	<%@ include file="js/main.js"%>
+	
 	</script>
 
 <!-- 	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
