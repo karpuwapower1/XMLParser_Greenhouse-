@@ -1,8 +1,5 @@
 package by.training.task04.karpilovich.factory;
 
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -13,7 +10,6 @@ import by.training.task04.karpilovich.command.impl.ParserCommand;
 
 public class CommandFactory {
 
-	private final Lock lock = new ReentrantLock();
 	private static final Logger LOGGER = LogManager.getLogger(CommandFactory.class);
 
 	private CommandFactory() {
@@ -30,7 +26,6 @@ public class CommandFactory {
 	public Command getCommand(String commandName) {
 		Command command;
 		try {
-			lock.lock();
 			CommandType commandType = CommandType.valueOf(commandName.toUpperCase());
 			LOGGER.debug(commandName);
 			switch (commandType) {
@@ -46,8 +41,6 @@ public class CommandFactory {
 			LOGGER.debug("Illegal command " + commandName);
 			command = new EmptyCommand();
 			return command;
-		} finally {
-			lock.unlock();
 		}
 	}
 
