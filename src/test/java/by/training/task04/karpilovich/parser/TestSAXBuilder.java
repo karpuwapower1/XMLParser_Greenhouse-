@@ -1,5 +1,6 @@
 package by.training.task04.karpilovich.parser;
 
+import java.io.File;
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -9,18 +10,18 @@ import java.util.Set;
 import org.junit.Assert;
 import org.junit.Test;
 
-import by.training.task04.karpilovich.builder.constant.Constant;
 import by.training.task04.karpilovich.builder.impl.SAXBuilder;
+import by.training.task04.karpilovich.builder.util.Constant;
 import by.training.task04.karpilovich.entity.Flower;
 import by.training.task04.karpilovich.entity.GrowingTip;
 import by.training.task04.karpilovich.entity.Multiplying;
 import by.training.task04.karpilovich.entity.Soil;
 import by.training.task04.karpilovich.entity.VisualParameter;
-import by.training.task04.karpilovich.exception.BuilderException;
+import by.training.task04.karpilovich.exception.ParserException;
 
 public class TestSAXBuilder {
 	
-	private Set<Flower> initFlower() throws BuilderException {
+	private Set<Flower> initFlower() throws ParserException, ParseException {
 		Set<Flower> flowers = new HashSet<>();
 		Set<VisualParameter> param = new HashSet<>();
 		param.add(new VisualParameter("leaf", "green"));
@@ -32,21 +33,16 @@ public class TestSAXBuilder {
 		tips.add(new GrowingTip("temperature", "15"));
 		tips.add(new GrowingTip("light", "true"));	
 		Calendar date = new GregorianCalendar();
-		try {
-		
 		date.setTime(Constant.FORMAT.parse("2020-01-01"));
-		} catch (ParseException e) {
-			throw new BuilderException(e);
-		}
 		Flower flower = new Flower("rose", 0, "the netherlands", Soil.UNDERGROUND, param, tips, Multiplying.ROOT, date);
 		flowers.add(flower);
 		return flowers;
 	}
 
 	@Test
-	public void testBuildSetFlower() throws BuilderException {
+	public void testBuildSetFlower() throws ParserException, ParseException {
 		SAXBuilder builder = SAXBuilder.getInstance();
-		builder.buildSetFlowers(getClass().getClassLoader().getResource("flowers.xml").toString());
+		builder.buildSetFlowers(new File(getClass().getClassLoader().getResource("flowers.xml").getFile()));
 		Set<Flower> actual = builder.getFlowers();
 		Set<Flower> expected = initFlower();
 		Assert.assertEquals(expected, actual);
