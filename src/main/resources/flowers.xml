@@ -14,14 +14,6 @@
 				<parameterName>steam</parameterName>
 				<color>green</color>
 			</parameter>
-			<parameter>
-				<parameterName>flower</parameterName>
-				<color>red</color>
-			</parameter>
-			<parameter>
-				<parameterName>size</parameterName>
-				<size>20</size>
-			</parameter>
 		</parameters>
 		<tips>
 			<tip>

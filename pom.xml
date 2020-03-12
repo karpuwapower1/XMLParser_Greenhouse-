@@ -1,20 +1,43 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>by.training.karpilovich.task4</groupId>
-  <artifactId>XMLParserGreenHouse</artifactId>
-  <packaging>war</packaging>
-  <version>0.0.1-SNAPSHOT</version>
-  <name>XMLParserGreenHouse Maven Webapp</name>
-  <url>http://maven.apache.org</url>
-  <properties>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>by.training.karpilovich.task4</groupId>
+	<artifactId>XMLParserGreenHouse</artifactId>
+	<packaging>war</packaging>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>XMLParserGreenHouse Maven Webapp</name>
+	<url>http://maven.apache.org</url>
+	<properties>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<junitVersion>4.12</junitVersion>
 		<log4jVersion>2.12.1</log4jVersion>
+		<jstlVersion>1.2</jstlVersion>
+		<servletApiVersion>4.0.1</servletApiVersion>
+		<connectorVersion>8.0.18</connectorVersion>
 	</properties>
 
 	<dependencies>
+		<!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>4.0.1</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>8.0.18</version>
+		</dependency>
+
+		<dependency>
+			<groupId>jstl</groupId>
+			<artifactId>jstl</artifactId>
+			<version>1.2</version>
+		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -32,7 +55,14 @@
 			<version>${log4jVersion}</version>
 		</dependency>
 	</dependencies>
-  <build>
-    <finalName>XMLParserGreenHouse</finalName>
-  </build>
+	<build>
+		<finalName>XMLParserGreenHouse</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.tomcat.maven</groupId>
+				<artifactId>tomcat6-maven-plugin</artifactId>
+				<version>2.2</version>
+			</plugin>
+		</plugins>
+	</build>
 </project>

@@ -1,109 +1,105 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<schema xmlns="http://www.w3.org/2001/XMLSchema"
-	targetNamespace="http://www.example.org/flowers"
-	xmlns:tns="http://www.example.org/flowers"
-	elementFormDefault="qualified">
-	<element name="flowers">
-		<complexType>
-			<sequence>
-				<element name="flower" type="tns:flower" minOccurs="1"
-					maxOccurs="unbounded" />
-			</sequence>
-		</complexType>
-	</element>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
-	<complexType name="flower">
-		<sequence>
-			<element name="soil" type="tns:Soil" />
-			<element name="parameters">
-				<complexType>
-					<sequence>
-						<element name="parameter" type="tns:parameter"
-							minOccurs="0" maxOccurs="unbounded" />
-					</sequence>
-				</complexType>
-			</element>
-			<element name="tips">
-				<complexType>
-					<sequence>
-						<element name="tip" type="tns:tip" minOccurs="2"
-							maxOccurs="unbounded" />
-					</sequence>
-				</complexType>
-			</element>
-			<element name="multiplying" type="tns:Multiplying" />
-			<element name="planting" type="date" />
-		</sequence>
-		<attribute name="name" type="tns:Name" use="required" />
-		<attribute name="quantity" type="tns:Quantity" default="1" />
-		<attribute name="origin" type="string" default="unknown" />
-	</complexType>
+	<xsd:element name="flowers">
+		
+        <xsd:complexType>
+			<xsd:sequence maxOccurs="unbounded">
+				<xsd:element name="flower" type="flower"/>
+			</xsd:sequence>
+		</xsd:complexType>
+    </xsd:element>
 
-	<simpleType name="Name">
-		<restriction base="ID">
-			<pattern value="[A-Za-z0-9 ]{2,}" />
-		</restriction>
-	</simpleType>
+	<xsd:complexType name="flower">
+		<xsd:sequence>
+			<xsd:element name="soil" type="Soil" />
+			<xsd:element name="parameters">
+				<xsd:complexType>
+					<xsd:sequence maxOccurs="unbounded">
+						<xsd:element name="parameter" type="parameter"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="tips">
+				<xsd:complexType>
+					<xsd:sequence  maxOccurs="unbounded">
+						<xsd:element name="tip" type="tip" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="multiplying" type="Multiplying" />
+			<xsd:element name="planting" type="xsd:date" />
+		</xsd:sequence>
+		<xsd:attribute name="name" type="Name" use="required" />
+		<xsd:attribute name="quantity" type="Quantity" default="1" />
+		<xsd:attribute name="origin" type="xsd:string" default="unknown" />
+	</xsd:complexType>
 
-	<simpleType name="Soil">
-		<restriction base="string">
-			<enumeration value="podzolic"></enumeration>
-			<enumeration value="underground"></enumeration>
-			<enumeration value="podzolic_underground"></enumeration>
-		</restriction>
-	</simpleType>
+	<xsd:simpleType name="Name">
+		<xsd:restriction base="xsd:ID">
+			<xsd:pattern value="[A-Za-z0-9 ]{2,}" />
+		</xsd:restriction>
+	</xsd:simpleType>
 
-	<complexType name="parameter">
-		<sequence>
-			<element name="parameterName" type="string" />
-			<choice>
-				<element name="color" type="tns:Color" />
-				<element name="size" type="tns:Size" />
-			</choice>
-		</sequence>
-	</complexType>
+	<xsd:simpleType name="Soil">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="podzolic"></xsd:enumeration>
+			<xsd:enumeration value="underground"></xsd:enumeration>
+			<xsd:enumeration value="podzolic_underground"></xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
 
-	<simpleType name="Color">
-		<restriction base="string">
-			<pattern value="[a-zA-Z ]{2,}" />
-		</restriction>
-	</simpleType>
+	<xsd:complexType name="parameter">
+		<xsd:sequence>
+			<xsd:element name="parameterName" type="xsd:string" />
+			<xsd:choice>
+				<xsd:element name="color" type="Color" />
+				<xsd:element name="size" type="Size" />
+			</xsd:choice>
+		</xsd:sequence>
+	</xsd:complexType>
 
-	<simpleType name="Size">
-		<restriction base="int">
-			<pattern value="[0-9]{1,}"/>
-		</restriction>
-	</simpleType>
+	<xsd:simpleType name="Color">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="[a-zA-Z ]{2,}" />
+		</xsd:restriction>
+	</xsd:simpleType>
 
-	<complexType name="tip">
-		<sequence>
-			<element name="tipName" type="string" />
-			<choice>
-				<element name="quantity" type="tns:Quantity" />
-				<element name="necessity" type="tns:Necessity" />
-			</choice>
-		</sequence>
-	</complexType>
+	<xsd:simpleType name="Size">
+		<xsd:restriction base="xsd:int">
+			<xsd:pattern value="[0-9]{1,}" />
+		</xsd:restriction>
+	</xsd:simpleType>
 
-	<simpleType name="Quantity">
-		<restriction base="string">
-			<pattern value="[0-9]{1,}" />
-		</restriction>
-	</simpleType>
+	<xsd:complexType name="tip">
+		<xsd:sequence>
+			<xsd:element name="tipName" type="xsd:string" />
+			<xsd:choice>
+				<xsd:element name="quantity" type="Quantity" />
+				<xsd:element name="necessity" type="Necessity" />
+			</xsd:choice>
+		</xsd:sequence>
+	</xsd:complexType>
 
-	<simpleType name="Necessity">
-		<restriction base="string">
-			<enumeration value="true"></enumeration>
-			<enumeration value="false"></enumeration>
-		</restriction>
-	</simpleType>
+	<xsd:simpleType name="Quantity">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="[0-9]{1,}" />
+		</xsd:restriction>
+	</xsd:simpleType>
 
-	<simpleType name="Multiplying">
-		<restriction base="string">
-			<enumeration value="seed" />
-			<enumeration value="root" />
-			<enumeration value="leaf" />
-		</restriction>
-	</simpleType>
+	<xsd:simpleType name="Necessity">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="true"></xsd:enumeration>
+			<xsd:enumeration value="false"></xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
 
-</schema>
+	<xsd:simpleType name="Multiplying">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="seed" />
+			<xsd:enumeration value="root" />
+			<xsd:enumeration value="leaf" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+</xsd:schema>

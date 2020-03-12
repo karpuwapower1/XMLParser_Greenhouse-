@@ -64,7 +64,7 @@ public class Flower {
 		this.soil = soil;
 	}
 
-	public Set<VisualParameter> getParamenters() {
+	public Set<VisualParameter> getParameters() {
 		return parameters;
 	}
 
