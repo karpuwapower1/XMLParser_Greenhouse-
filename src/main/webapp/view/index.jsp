@@ -31,45 +31,6 @@
 			aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
 		</button>
-
-		<c:choose>
-			<c:when test="${isLogin == true }">
-				<div class="collapse navbar-collapse" id="navbarSupportedContent">
-					<div class="row navbar-nav ml-auto">
-						<div class="col-4">
-							<div class="nav-item">
-								<form action="signout" method="post">
-									<button type="submit" class="btn btn-link" name="command"
-										value="signout">signout</button>
-								</form>
-							</div>
-						</div>
-					</div>
-				</div>
-			</c:when>
-			<c:otherwise>
-				<div class="collapse navbar-collapse" id="navbarSupportedContent">
-					<div class="row navbar-nav ml-auto">
-						<div class="col-4">
-							<div class="nav-item">
-								<form action="login" method="post">
-									<button type="submit" class="btn btn-link" name="command"
-										value="login">Login</button>
-								</form>
-							</div>
-						</div>
-						<div class="col-4">
-							<div class="nav-item">
-								<form action="signin" method="post">
-									<button type="submit" class="btn btn-link" name="command"
-										value="signin">signin</button>
-								</form>
-							</div>
-						</div>
-					</div>
-				</div>
-			</c:otherwise>
-		</c:choose>
 	</nav>
 </header>
 
@@ -117,12 +78,7 @@
 	<%@ include file="js/popper.min.js"%>
 	
 	<%@ include file="js/main.js"%>
-	
-		
-	</script>
-
-	
-	
+	</script>	
 	
 	<script type="application/javascript">
     $('input[type="file"]').change(function(e){

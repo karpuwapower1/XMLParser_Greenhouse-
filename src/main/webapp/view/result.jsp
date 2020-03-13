@@ -56,7 +56,9 @@
 			</tr>
 		</thead>
 		<tbody>
+		
 			<c:forEach var="flower" items="${flowers }">
+			<tr>
 				<td><c:out value="${flower.name }" /></td>
 				<td><c:out value="${flower.quantity }" /></td>
 				<td><c:out value="${flower.origin }" /></td>
@@ -78,6 +80,7 @@
 					</c:forEach></td>
 
 				<td><c:forEach var="parameter" items="${flower.parameters }">
+				
 						<table class="table inner-table text-center table-bordered">
 							<tr>
 								<td class="inner-left-column"><c:out value="${parameter.parameter }" /></td>
@@ -87,7 +90,9 @@
 							</tr>
 						</table>
 					</c:forEach></td>
+					</tr>
 			</c:forEach>
+			
 		</tbody>
 	</table>
 	
@@ -101,11 +106,5 @@
 	<%@ include file="js/main.js"%>
 	
 	</script>
-
-<!-- 	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
-	<script
-		src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
-	<script
-		src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script> -->
 </body>
 </html>

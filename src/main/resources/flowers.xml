@@ -28,4 +28,82 @@
 		<multiplying>root</multiplying>
 		<planting>2020-01-01</planting>
 	</flower>
+	
+	<flower name="tulip" origin="the netherlands">
+		<soil>underground</soil>
+		<parameters>
+			<parameter>
+				<parameterName>leaf</parameterName>
+				<color>green</color>
+			</parameter>
+			<parameter>
+				<parameterName>steam</parameterName>
+				<color>green</color>
+			</parameter>
+		</parameters>
+		<tips>
+			<tip>
+				<tipName>temperature</tipName>
+				<quantity>15</quantity>
+			</tip>
+			<tip>
+				<tipName>light</tipName>
+				<necessity>true</necessity>
+			</tip>
+		</tips>
+		<multiplying>root</multiplying>
+		<planting>2020-01-01</planting>
+	</flower>
+	
+	<flower name="hamomile" origin="the netherlands">
+		<soil>underground</soil>
+		<parameters>
+			<parameter>
+				<parameterName>leaf</parameterName>
+				<color>green</color>
+			</parameter>
+			<parameter>
+				<parameterName>steam</parameterName>
+				<color>green</color>
+			</parameter>
+		</parameters>
+		<tips>
+			<tip>
+				<tipName>temperature</tipName>
+				<quantity>15</quantity>
+			</tip>
+			<tip>
+				<tipName>light</tipName>
+				<necessity>true</necessity>
+			</tip>
+		</tips>
+		<multiplying>root</multiplying>
+		<planting>2020-01-01</planting>
+	</flower>
+	
+	<flower name="violet" origin="the netherlands">
+		<soil>underground</soil>
+		<parameters>
+			<parameter>
+				<parameterName>leaf</parameterName>
+				<color>green</color>
+			</parameter>
+			<parameter>
+				<parameterName>steam</parameterName>
+				<color>green</color>
+			</parameter>
+		</parameters>
+		<tips>
+			<tip>
+				<tipName>temperature</tipName>
+				<quantity>15</quantity>
+			</tip>
+			<tip>
+				<tipName>light</tipName>
+				<necessity>true</necessity>
+			</tip>
+		</tips>
+		<multiplying>root</multiplying>
+		<planting>2020-01-01</planting>
+	</flower>
 </flowers>
