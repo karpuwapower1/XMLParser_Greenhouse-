@@ -14,12 +14,12 @@ import org.apache.logging.log4j.Logger;
 
 import by.training.task04.karpilovich.builder.AbstractBuilder;
 import by.training.task04.karpilovich.command.Command;
+import by.training.task04.karpilovich.command.constant.PageManager;
+import by.training.task04.karpilovich.command.constant.RequestAttributeManager;
+import by.training.task04.karpilovich.command.constant.RequestParameterManager;
 import by.training.task04.karpilovich.entity.Flower;
 import by.training.task04.karpilovich.exception.ParserException;
 import by.training.task04.karpilovich.factory.BuilderFactory;
-import by.training.task04.karpilovich.resource.PageManager;
-import by.training.task04.karpilovich.resource.RequestAttributeManager;
-import by.training.task04.karpilovich.resource.RequestParameterManager;
 
 public class ParserCommand implements Command {
 
@@ -29,20 +29,23 @@ public class ParserCommand implements Command {
 	@Override
 	public PageManager execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String parserType = request.getParameter(RequestParameterManager.PARSER.getParameterName());
-		File file = upload(request);
 		BuilderFactory factory = BuilderFactory.getInstance();
-		try {
+		File file = upload(request);
+		try {		
 			AbstractBuilder builder = factory.getBuilder(parserType);
 			builder.reset();
 			builder.buildSetFlowers(file);
 			Set<Flower> flowers = builder.getFlowers();
 			request.setAttribute(RequestAttributeManager.FLOWERS.getAttributeName(), flowers);
-			file.delete();
-			LOGGER.debug("file was deleted " + file.getName());
 			return PageManager.RESULT;
 		} catch (ParserException e) {
 			request.setAttribute( RequestAttributeManager.ILLEGAL_FILE_MESSAGE_ATTRIBUTE.getAttributeName(), ILLEGAL_FILE_MESSAGE);
 			return PageManager.WELCOME;
+		} finally {
+			if (file.exists()) {
+				file.delete();
+				LOGGER.debug("file was deleted " + file.getName());
+			}
 		}
 
 	}

@@ -13,9 +13,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import by.training.task04.karpilovich.command.Command;
+import by.training.task04.karpilovich.command.constant.PageManager;
+import by.training.task04.karpilovich.command.constant.RequestParameterManager;
 import by.training.task04.karpilovich.factory.CommandFactory;
-import by.training.task04.karpilovich.resource.PageManager;
-import by.training.task04.karpilovich.resource.RequestParameterManager;
 
 @WebServlet("/")
 @MultipartConfig(maxFileSize=1024 * 10)
@@ -24,11 +24,6 @@ public class Controller extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	private static final Logger LOGGER = LogManager.getLogger(Controller.class);
-
-	@Override
-	public void init() throws ServletException {
-		super.init();
-	}
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse responce)
@@ -50,10 +45,4 @@ public class Controller extends HttpServlet {
 		PageManager page = command.execute(request, response);
 		request.getRequestDispatcher(page.getPage()).forward(request, response);
 	}
-
-	@Override
-	public void destroy() {
-		super.destroy();
-	}
-
 }

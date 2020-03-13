@@ -27,7 +27,7 @@ import by.training.task04.karpilovich.exception.ParserException;
 public class DOMBuilder extends AbstractBuilder {
 
 	private DocumentBuilder documentBuilder;
-	private static final Logger LOGGER = LogManager.getLogger(DOMBuilder.class);
+	private static final Logger LOGGER = LogManager.getLogger();
 
 	private DOMBuilder() {
 		try {

@@ -30,7 +30,7 @@ public abstract class AbstractBuilder {
 	protected VisualParameter currentParameter;
 	protected Optional<FlowersTag> currentTag;
 	protected XMLValidator validator;
-	
+
 	private static final Logger LOGGER = LogManager.getLogger(AbstractBuilder.class);
 
 	protected AbstractBuilder() {
@@ -45,8 +45,6 @@ public abstract class AbstractBuilder {
 	public void reset() {
 		flowers = new HashSet<>();
 	}
-
-	public abstract void buildSetFlowers(File file) throws ParserException;
 
 	protected void setFlowerAttribute(String attributeName, String attributeValue) {
 		switch (FlowerAttribute.valueOf(attributeName.trim().toUpperCase())) {
@@ -63,7 +61,7 @@ public abstract class AbstractBuilder {
 			break;
 		}
 	}
-	
+
 	protected void setParameter(String value, FlowersTag tag) throws ParserException {
 		switch (tag) {
 		case SOIL:
@@ -94,7 +92,7 @@ public abstract class AbstractBuilder {
 		}
 	}
 
-	protected Calendar parseDate(String date) throws ParserException {
+	private Calendar parseDate(String date) throws ParserException {
 		Calendar calendar = new GregorianCalendar();
 		try {
 			calendar.setTime(Constant.FORMAT.parse(date));
@@ -104,4 +102,6 @@ public abstract class AbstractBuilder {
 			throw new ParserException(e);
 		}
 	}
+
+	public abstract void buildSetFlowers(File file) throws ParserException;
 }

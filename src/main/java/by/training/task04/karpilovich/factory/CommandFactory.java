@@ -37,7 +37,7 @@ public class CommandFactory {
 				break;
 			}
 			return command;
-		} catch (IllegalArgumentException | NullPointerException e) {
+		} catch (IllegalArgumentException e) {
 			LOGGER.debug("Illegal command " + commandName);
 			command = new EmptyCommand();
 			return command;
